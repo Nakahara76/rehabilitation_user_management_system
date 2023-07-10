@@ -28,7 +28,7 @@
       <% users.forEach(function (value) { %>
       <tr>
         <td>
-          <a href="/user_information/:id">
+          <a href="/user_information/<%= value.id %>">
             <%= value.name %></a>
         </td>
         <td>
