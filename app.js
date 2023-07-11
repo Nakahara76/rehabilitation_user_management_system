@@ -59,20 +59,32 @@ app.get('/edit/:id', (req, res) => {
   });
 });
 
-
 app.get('/user_information/:id', (req, res) => {
-  // パラメータからidを取得
-  const id = parseInt(req.params.id);
-  // idに一致するユーザー情報を検索
-  const user = userInformation.find(user => user.id === id);
-  // ユーザー情報が存在する場合
-  if (user) {
-    res.render('user_information', { user });
-  } else {
-    // ユーザーが見つからない場合はエラーページを表示するなどの処理
-    res.render('error');
-  }
+  //clientsテーブルからidが合致するデータの表示？
+  const sql = "SELECT * FROM rihabili_user_data WHERE id = ?";
+  //selectをqueryでコマンドを叩いている、それをrenderで返している？
+  con.query(sql, [req.params.id], function (err, result, fields) {
+    if (err) throw err;
+    res.render('user_information', {
+      user: result
+    });
+  });
 });
+
+
+// app.get('/user_information/:id', (req, res) => {
+//   // パラメータからidを取得
+//   const id = parseInt(req.params.id);
+//   // idに一致するユーザー情報を検索
+//   const user = userInformation.find(user => user.id === id);
+//   // ユーザー情報が存在する場合
+//   if (user) {
+//     res.render('user_information', { user });
+//   } else {
+//     // ユーザーが見つからない場合はエラーページを表示するなどの処理
+//     res.render('error');
+//   }
+// });
 
 
 
