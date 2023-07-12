@@ -59,19 +59,44 @@ app.get('/edit/:id', (req, res) => {
   });
 });
 
+
+const con2 = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'rootroot',
+  database: 'rehabilistation_sqldata_db'
+});
+
+//別テーブルから取得する関数
 app.get('/user_information/:id', (req, res) => {
   //clientsテーブルからidが合致するデータの表示？
-  const sql = "SELECT * FROM rihabili_user_data WHERE id = ?";
+  const sql = "SELECT * FROM rehabili_user_data WHERE id = ?";
   //selectをqueryでコマンドを叩いている、それをrenderで返している？
-  con.query(sql, [req.params.id], function (err, result, fields) {
+  con2.query(sql, [req.params.id], function (err, result, fields) {
     if (err) throw err;
     res.render('user_information', {
       user: result
     });
+    console.log(result);
+    console.log(fields);
   });
 });
 
 
+//同一のDB内に作ったテーブルの関数
+// app.get('/user_information/:id', (req, res) => {
+//   //clientsテーブルからidが合致するデータの表示？
+//   const sql = "SELECT * FROM rehabili_user_data WHERE id = ?";
+//   //selectをqueryでコマンドを叩いている、それをrenderで返している？
+//   con.query(sql, [req.params.id], function (err, result, fields) {
+//     if (err) throw err;
+//     res.render('user_information', {
+//       user: result
+//     });
+//   });
+// });
+
+//最初の配列のデータを取得するための関数
 // app.get('/user_information/:id', (req, res) => {
 //   // パラメータからidを取得
 //   const id = parseInt(req.params.id);
